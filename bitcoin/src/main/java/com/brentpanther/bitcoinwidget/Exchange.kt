@@ -14,6 +14,13 @@ internal enum class Exchange constructor(val exchangeName: String, shortName: St
             return getJsonObject(url).get("last").asString
         }
     },
+    BANKGOVUA("National Bank of Ukraine") {
+
+        override fun getValue(coin: String, currency: String): String {
+            val url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=$coin&json"
+            return getJsonArray(url).get(0).asJsonObject.get("rate").asString
+        }
+    },
     BIBOX("Bibox") {
 
         override fun getValue(coin: String, currency: String): String {
@@ -687,7 +694,7 @@ internal enum class Exchange constructor(val exchangeName: String, shortName: St
 
     companion object {
 
-        private val ALL_EXCHANGE_NAMES = Exchange.values().map { it.name}.toMutableList()
+        private val ALL_EXCHANGE_NAMES = values().map { it.name}.toMutableList()
 
         fun getAllExchangeNames(): MutableList<String> {
             return ALL_EXCHANGE_NAMES.toMutableList()

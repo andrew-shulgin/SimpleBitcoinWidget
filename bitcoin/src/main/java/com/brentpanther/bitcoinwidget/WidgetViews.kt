@@ -179,7 +179,7 @@ internal object WidgetViews {
             adjustedAmount *= prefs.coin.getUnitAmount(unit)
         }
         val nf: NumberFormat
-        if (Coin.COIN_NAMES.contains(currency)) {
+        if (Coin.COIN_NAMES.contains(currency) && !currency.equals("USD")) {
             // virtual currency
             val format = Coin.getVirtualCurrencyFormat(currency!!)
             nf = DecimalFormat(format)

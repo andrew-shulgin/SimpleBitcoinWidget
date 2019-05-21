@@ -22,6 +22,10 @@ enum class Coin constructor(val coinName: String, @param:DrawableRes val icon: I
         override val drawables: IntArray
             get() = intArrayOf(ic_eth_color, ic_eth, ic_eth_color, ic_eth)
     },
+    EUR("Euro", ic_eur) {
+        override val drawables: IntArray
+            get() = intArrayOf(ic_eur, ic_eur_bw, ic_eur_dark, ic_eur_dark_bw)
+    },
     XRP("Ripple", ic_xrp) {
         override val drawables: IntArray
             get() = intArrayOf(ic_xrp, ic_xrp_bw, ic_xrp, ic_xrp_bw)
@@ -117,6 +121,14 @@ enum class Coin constructor(val coinName: String, @param:DrawableRes val icon: I
         override val drawables: IntArray
             get() = intArrayOf(ic_rdd, ic_rdd_bw, ic_rdd, ic_rdd_bw)
     },
+    UAH("Ukrainian Hryvnia", ic_uah) {
+        override val drawables: IntArray
+            get() = intArrayOf(ic_uah, ic_uah_bw, ic_uah_dark, ic_uah_dark_bw)
+    },
+    USD("US Dollar", ic_usd) {
+        override val drawables: IntArray
+            get() = intArrayOf(ic_usd, ic_usd_bw, ic_usd_dark, ic_usd_dark_bw)
+    },
     XTZ("Tezos", ic_xtz) {
         override val drawables: IntArray
             get() = intArrayOf(ic_xtz, ic_xtz_bw, ic_xtz, ic_xtz_bw)
@@ -145,6 +157,7 @@ enum class Coin constructor(val coinName: String, @param:DrawableRes val icon: I
                     // bitcoin symbol added in Oreo
                     if (Build.VERSION.SDK_INT >= 26) "₿ #,###" else "Ƀ #,###"
                 "LTC" -> "Ł #,###"
+                "UAH" -> "#.## ₴"
                 else -> String.format("#,### %s", currency)
             }
         }
