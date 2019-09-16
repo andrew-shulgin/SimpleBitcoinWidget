@@ -3,26 +3,20 @@
 package com.brentpanther.bitcoinwidget
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.JsonSyntaxException
-import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.util.concurrent.atomic.AtomicReference
 
 class SettingsActivity : AppCompatActivity() {
 
-    private var dialog: ProgressDialog? = null
     private var widgetId: Int = 0
     private lateinit var coin: Coin
     private var receiver: BroadcastReceiver? = null
@@ -31,15 +25,10 @@ class SettingsActivity : AppCompatActivity() {
     private val coinJSON: InputStream
         get() {
             try {
-                return if (File(filesDir, DownloadJSONService.CURRENCY_FILE_NAME).exists()) {
-                    openFileInput(DownloadJSONService.CURRENCY_FILE_NAME)
-                } else {
-                    resources.openRawResource(R.raw.cryptowidgetcoins)
-                }
+                return resources.openRawResource(R.raw.cryptowidgetcoins)
             } catch (e: FileNotFoundException) {
                 throw RuntimeException(e)
             }
-
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,19 +44,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun loadData(addFragment: Boolean) {
-        if (DownloadJSONService.downloaded) {
-            populateData(addFragment)
-        } else {
-            dialog = ProgressDialog.show(this, getString(R.string.dialog_update_title), getString(R.string.dialog_update_message), true)
-            val intentFilter = IntentFilter(DownloadJSONService.JSON_DOWNLOADED_ACTION)
-            receiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-                    populateData(addFragment)
-                    dialog?.dismiss()
-                }
-            }
-            LocalBroadcastManager.getInstance(this).registerReceiver(receiver as BroadcastReceiver, intentFilter)
-        }
+        populateData(addFragment)
     }
 
     override fun onStop() {
